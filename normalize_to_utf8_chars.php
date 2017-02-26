@@ -1,6 +1,9 @@
 <?
 
 /*
+
+URL : https://github.com/OldskoolOrion/normalize_to_utf8_chars
+
 Function usable when normalizing input data, that has been mangled before, by :
 
   1) Encoding Problem : Treating UTF-8 Bytes as Windows-1252 or ISO-8859-1
@@ -8,7 +11,7 @@ Function usable when normalizing input data, that has been mangled before, by :
   3) Encoding Problem : ISO-8859-1 vs Windows-1252
 
 The problems should be tackled at the source of the problem of course
-(copy/pasting from Microsoft Word comes to mind, for instance), but a lot of
+(copying/pasting from Microsoft Word comes to mind, for instance), but a lot of
 times you get data handed to you when you cannot exercise that control, but
 you still will have to fix the issue in the data.
 
@@ -19,12 +22,13 @@ dealt with.
 I wrote it in a clear readable form, optimized for a line-length of 120 chars,
 but when using a smaller viewing window (e.g. 80 chars), all the most important
 information is still visible without scrolling the view, while trying to
-keep my personal usual coding style intact, to keep everything readable.
-In this case information, went over style (but not in a bad way).
+keep my personal usual coding style intact (to keep everything readable).
+In this case information prevailed over style.
 
-Take notice of the special remarks at the end of the function.
-This is where I basically break the Unicode standard, for reasons the situation
-usually dictates. You might want to take a different approach however.
+Take notice of the special remarks below the array (marked by [nr]).
+For these remarks I basically break the Unicode standard, for reasons the
+situation usually dictates. You might want to take a different approach.
+That is up to yourself and the situation you want to use (part of) this code for.
 
 The array is maintained in order of the character's Windows 1252 hex-code, for
 the sole simple reason that ascii tables (which I used to look up information)
@@ -166,12 +170,11 @@ function normalize_to_utf8_chars($string) {     // Nr. | Unicode | Win1252 | Exp
                 chr(0xC3).chr(0xBE),            // 002 | U+00FE  | 0xFE    | þ         | Ã¾        | %C3 %BE
                 chr(0xC3).chr(0xBF));           // 003 | U+00FF  | 0xFF    | ÿ         | Ã¿        | %C3 %BF
 
-                // [1] : standard dictates 'En dash'. Replaced by space minus space (' - ').
-                // [2] : standard dictates 'Em dash'. Replaced by space minus space (' - ').
-                // [3] : Unicode dictates 'Non breaking space' : this effort is about content,
-                //       not design and presenting it. Replaced by a single space (' ').
-                // [4] : Unicode dictates 'Soft hyphen' : analyzing occurences in real world
-                //       has turned out that replacing with a single space (' ') was best.
+                // [1] : Unicode dictates 'En dash'. Replaced by space minus space (' - ').
+                // [2] : Unicode dictates 'Em dash'. Replaced by space minus space (' - ').
+                // [3] : Unicode dictates 'Non breaking space' : Replaced by a single space (' ').
+                // [4] : Unicode dictates 'Soft hyphen' : Replaced by a single space (' ').
+                // See https://github.com/OldskoolOrion/normalize_to_utf8_chars for a more verbose explenation.
 
   $replace = array('€', '‚', 'ƒ', '„', '…', '†', '‡', 'ˆ', '‰', 'Š', '‹', 'Œ', 'Ž', '‘', '’', '“', '”', '•', ' - ',
                    ' - ', '˜', '™', 'š', '›', 'œ', 'ž', 'Ÿ', ' ', '¡', '¢', '£', '¤', '¥', '¦', '§', '¨', '©', 'ª',
